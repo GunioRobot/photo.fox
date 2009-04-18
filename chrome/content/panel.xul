@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<overlay id="photo.fox-overlay"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript" src="chrome://photo.fox/content/core.js" />
+  <script type="application/x-javascript" src="chrome://photo.fox/content/panel.js" />
+  <script type="application/x-javascript" src="chrome://photo.fox/content/options.js" />
+  <script type="application/x-javascript" src="chrome://photo.fox/content/auth.js" />
+  <script type="application/x-javascript" src="chrome://photo.fox/content/dao.js" />
+  <statusbar id="status-bar">
+	  <statusbarpanel id="photo.fox-panel" context="photo.fox-menu" >
+      <image src="chrome://photo.fox/content/photosight.ico" style="cursor:pointer" tooltiptext="Перейти к профилю."
+            onclick="photoFox.Core.loadProfile(event)"/>
+		  <label id="photo.fox-label" value="Фото.сайт" tooltiptext="Щелкните, чтобы настроить."
+            onclick="photoFox.Core.processLeftClick(event)"/>
+	  </statusbarpanel>
+  </statusbar>  
+  <popupset>
+    <menupopup id="photo.fox-menu" onpopupshowing="photoFoxCheckMenuItems();">
+      <menuitem id="menu-item-login" label="Войти" oncommand="photoFox.Auth.login()"/>
+      <menuitem id="menu-item-logout" label="Выйти" oncommand="photoFox.Auth.logout()"/>
+      <!--<menuseparator/>
+      <menuitem label="Настройки..." oncommand="photoFoxShowPrefs()"/>-->
+    </menupopup>   
+  </popupset>
+ 
+  <script type="application/x-javascript">
+    window.addEventListener ("load", photoFox.Core.init, false);
+    
+    function photoFoxCheckMenuItems() {
+      var is_logged = photoFox.Auth.isLoggedIn();
+
+      document.getElementById("menu-item-login").hidden = is_logged;
+      document.getElementById("menu-item-logout").hidden = !is_logged;
+    }
+  </script>
+
+</overlay>

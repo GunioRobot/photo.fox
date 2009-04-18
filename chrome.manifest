@@ -1,0 +1,2 @@
+content     photo.fox    chrome/content/
+overlay chrome://browser/content/browser.xul chrome://photo.fox/content/panel.xul
