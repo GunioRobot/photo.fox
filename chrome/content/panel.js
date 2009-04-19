@@ -33,12 +33,14 @@ photoFox.Panel = {
 	var core = photoFox.getInstance();
 	
 	var tooltip = 
-	  "За повышение: " + core.getOption('statusVotesUp')
-	  + "\nЗа сохранение: " + core.getOption('statusVotesConfirmed')
-	  + "\nЗа понижения: " + core.getOption('statusVotesDown')
+      "Голоса за статус:"
+	  + "\n  повышение - " + core.getOption('statusVotesUp')
+	  + "\n  сохранение - " + core.getOption('statusVotesConfirmed')
+	  + "\n  понижение - " + core.getOption('statusVotesDown')
 	  + "\n"
-	  + "\nЖдут ваших фото: " + core.getOption('waitPhotos')
-	  + "\nЖдут ваших комментариев: " + core.getOption('waitComments');
+	  + "\nЖдут:"
+	  + "\n  фото - " + core.getOption('waitPhotos')
+	  + "\n  комментариев - " + core.getOption('waitComments');
 	
 	photoFox.Panel.print(core.getOption('nick'), tooltip);
   },
