@@ -19,9 +19,6 @@ photoFox.Auth = {
 	core.setOption('key', '');
 	core.setOption('login', '');
 	core.setOption('nick', '');
-	core.setOption('status', '');
-	core.setOption('lastFavouriteAuthorPhotoId', '1');
-	core.setOption('unreadMessagesCount', '0');
    
     photoFox.Panel.reset();
   },

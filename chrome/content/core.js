@@ -41,16 +41,25 @@ photoFox = function(value) {
 	photoFox.Panel.update();
 	this.loadPSPage(event, '/my/private_messages/');
   }
+  
+  photoFox.prototype.processClickOnFavouriteAuthorsPhotos = function(event)
+  { 
+	this.setOption('favouriteAuthorPhotoChanged', "0");
+	photoFox.Panel.update();
+	this.loadPSPage(event, '/my/favorite_authors/');
+  }  
 
   photoFox.prototype.update = function()
-  {
+  {	
     document.getElementById("photo.fox-label").value = '...';
 
     var httpRequestUser = new XMLHttpRequest();
     if (httpRequestUser.overrideMimeType)
       httpRequestUser.overrideMimeType('text/xml');
 
-    httpRequestUser.onreadystatechange = function() { photoFox.Dao.getUserInfo(httpRequestUser); };
+    httpRequestUser.onreadystatechange = function() {
+      photoFox.Dao.getUserInfo(httpRequestUser);
+    };
     httpRequestUser.open('GET', photoFox.Dao.getUserInfoUri(), true);
     httpRequestUser.send(null);
 
@@ -58,9 +67,21 @@ photoFox = function(value) {
     if (httpRequestMsg.overrideMimeType)
       httpRequestMsg.overrideMimeType('text/xml');
     
-    httpRequestMsg.onreadystatechange = function() { photoFox.Dao.getPrivateMessages(httpRequestMsg); };
+    httpRequestMsg.onreadystatechange = function() {
+      photoFox.Dao.getPrivateMessages(httpRequestMsg);
+    };
     httpRequestMsg.open('GET', photoFox.Dao.getPrivateMessagesUri(), true);
     httpRequestMsg.send(null);  
+    
+    var httpRequestFavouriteAuthorsPhotos = new XMLHttpRequest();
+    if (httpRequestFavouriteAuthorsPhotos.overrideMimeType)
+    	httpRequestFavouriteAuthorsPhotos.overrideMimeType('text/xml');
+    
+    httpRequestFavouriteAuthorsPhotos.onreadystatechange = function() {
+      photoFox.Dao.getFavouriteAuthorsPhotos(httpRequestFavouriteAuthorsPhotos);
+    };
+    httpRequestFavouriteAuthorsPhotos.open('GET', photoFox.Dao.getFavouriteAuthorsPhotosUri(), true);
+    httpRequestFavouriteAuthorsPhotos.send(null);
   };
   
   photoFox.prototype.loadPage = function(event, url)
@@ -117,5 +138,8 @@ photoFox = function(value) {
   
   photoFox.prototype.getOption = function(name)
   {
-	return JSON.fromString(this._getOptionPath().getCharPref(name)).value;
+	var container = this._getOptionPath().getCharPref(name);
+	if('' == container)
+	  return '';
+	return JSON.fromString(container).value;
   };

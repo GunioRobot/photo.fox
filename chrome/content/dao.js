@@ -68,12 +68,17 @@ photoFox.Dao = {
   getPrivateMessagesUri: function()
   {
     return this.getUriByAction('private_messages');
+  },  
+  
+  getFavouriteAuthorsPhotosUri: function()
+  {
+    return this.getUriByAction('favourite_authors_photos');
   },
 
   getUserInfo: function(httpRequest)
   {
 	if (httpRequest.readyState != 4) return;    
-	//if (httpRequest.status != 200) return;
+	if (httpRequest.status != 200) return;
 	  
 	var xmlDoc;	      
 	try {      
@@ -111,7 +116,7 @@ photoFox.Dao = {
   getPrivateMessages: function(httpRequest)
   {
     if (httpRequest.readyState != 4) return;
-    //if (httpRequest.status != 200) return;
+    if (httpRequest.status != 200) return;
   
     var xmlDoc;    
     try {    
@@ -126,6 +131,32 @@ photoFox.Dao = {
     photoFox.getInstance().setOption('unreadMessagesCount', messages_count);
     
     photoFox.Panel.update();
-  }
+  },
+  
+  getFavouriteAuthorsPhotos: function(httpRequest)
+  {
+    if (httpRequest.readyState != 4) return;
+    if (httpRequest.status != 200) return;
+  
+    var xmlDoc;    
+    try {    
+      xmlDoc = httpRequest.responseXML;    
+    } catch (e) {
+      photoFox.Panel.printError('Отсутствует связь с фотосайтом, либо задан неверный путь к данным.');    
+      throw e;
+    }
+    
+    var core = photoFox.getInstance();
+    
+    var top_photo_ctime = xmlDoc.getElementsByTagName('pubDate').item(0).textContent;    
+    var old_top_photo_ctime = core.getOption('lastFavouriteAuthorPhotoCtime');
+        
+    if(top_photo_ctime != old_top_photo_ctime) {
+      core.setOption('lastFavouriteAuthorPhotoCtime', top_photo_ctime);
+      core.setOption('favouriteAuthorPhotoChanged', "1");
+    }
+    
+    photoFox.Panel.update();
+  },
   
 };

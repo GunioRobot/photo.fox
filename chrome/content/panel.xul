@@ -23,14 +23,24 @@
         src="http://www.photosight.ru/images/icon/message_new.gif"
         tooltiptext="Кто-то вам написал"
         onclick="photoFox.getInstance().processClickOnMessages(event);"
-        style="cursor:pointer"        
+        style="cursor:pointer"
+        hidden="true"        
       />
       <label
         id="photo.fox-label-messages"
         tooltiptext="Количество непрочитанных сообщений"
         onclick="photoFox.getInstance().processClickOnMessages();"
-        style="cursor:pointer"        
+        style="cursor:pointer"
+        hidden="true"        
       />
+      <image
+        id="photo.fox-image-favourites"
+        src="chrome://photo.fox/content/picture.png"
+        tooltiptext="Новое фото избранного автора"
+        onclick="photoFox.getInstance().processClickOnFavouriteAuthorsPhotos(event);"
+        style="cursor:pointer;"
+        hidden="true"
+      />      
 	  </statusbarpanel>
   </statusbar>  
   <popupset>

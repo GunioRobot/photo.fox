@@ -12,6 +12,7 @@ pref("extensions.photo.fox.statusVotesConfirmed", "");
 pref("extensions.photo.fox.waitPhotos", "");
 pref("extensions.photo.fox.waitComments", "");
 
-pref("extensions.photo.fox.lastFavouriteAuthorPhotoId", "1");
+pref("extensions.photo.fox.lastFavouriteAuthorPhotoCtime", "");
+pref("extensions.photo.fox.favouriteAuthorPhotoChanged", "0");
 
 pref("extensions.photo.fox.unreadMessagesCount", "0");

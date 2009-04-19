@@ -12,7 +12,13 @@ photoFox.Panel = {
   },
 
   update: function()
-  {  
+  {
+	if(!photoFox.Auth.isLoggedIn())
+	{
+	  photoFox.Panel.reset();
+	  return;
+	}
+	
 	var core = photoFox.getInstance();
     
 	if('' != core.getOption('nick'))
@@ -20,6 +26,9 @@ photoFox.Panel = {
     
     if('' != core.getOption('unreadMessagesCount'))   
       photoFox.Panel.drawMessages(core.getOption('unreadMessagesCount'));
+    
+    if('' != core.getOption('lastFavouriteAuthorPhotoId'))   
+        photoFox.Panel.drawFavouriteAuthors(core.getOption('lastFavouriteAuthorPhotoId'));
   },  
   
   reset: function()
@@ -55,5 +64,15 @@ photoFox.Panel = {
 	label.value = messages_count;	
 	label.hidden = is_hidden;
 	image.hidden = is_hidden;
+  },
+  
+  drawFavouriteAuthors: function(messages_count)
+  {
+	var image = document.getElementById("photo.fox-image-favourites");
+	
+	if("0" != photoFox.getInstance().getOption('favouriteAuthorPhotoChanged'))
+	  image.hidden = false;
+	else
+	  image.hidden = true;
   },
 };
