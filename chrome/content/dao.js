@@ -90,13 +90,20 @@ photoFox.Dao = {
 	if(0 == tags.length)
 	  return;
 	
-	var infoEl = tags.item(0);		
+	var attrs = tags.item(0).attributes;		
 	
 	var core = photoFox.getInstance();
 	
-	core.setOption('id', infoEl.attributes.getNamedItem('id').value);
-	core.setOption('status_name', infoEl.attributes.getNamedItem('status_name').value);		
-	core.setOption('nick', infoEl.attributes.getNamedItem('nick').value);
+	core.setOption('id', attrs.getNamedItem('id').value);
+	core.setOption('status', attrs.getNamedItem('status').value);		
+	core.setOption('nick', attrs.getNamedItem('nick').value);
+	
+	core.setOption('statusVotesUp', attrs.getNamedItem('status_votes_up').value);
+	core.setOption('statusVotesDown', attrs.getNamedItem('status_votes_down').value);
+	core.setOption('statusVotesConfirmed', attrs.getNamedItem('status_votes_confirmed').value);
+	
+	core.setOption('waitPhotos', attrs.getNamedItem('favourited_authors').value);
+	core.setOption('waitComments', attrs.getNamedItem('favourited_commenters').value);
 	  
 	photoFox.Panel.update();
   },

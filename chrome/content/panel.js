@@ -6,27 +6,41 @@ photoFox.Panel = {
     document.getElementById("photo.fox-label").tooltipText = tooltip;
   },
 
-  printError: function(message, tooltip)
-  {
-    this.print('Алярма! ' + message, tooltip);
+  printError: function(message)
+  {	
+    this.print('Алярма! ' + message);
   },
 
   update: function()
   {  
 	var core = photoFox.getInstance();
     
-	var nick = core.getOption('nick'); 
-	if('' == nick) return;	
-    this.print(nick, "Ласково надавите, чтобы обновить");
+	if('' != core.getOption('nick'))
+      photoFox.Panel.drawMainLabel();    
     
-    if('' == core.getOption('unreadMessagesCount')) return;   
-    photoFox.Panel.drawMessages(core.getOption('unreadMessagesCount'));
+    if('' != core.getOption('unreadMessagesCount'))   
+      photoFox.Panel.drawMessages(core.getOption('unreadMessagesCount'));
   },  
   
   reset: function()
   {
 	this.print('Фото.Fox', 'Тыцните, чтобы войти');
 	photoFox.Panel.drawMessages(0);
+  },
+  
+  drawMainLabel: function()
+  {
+	var core = photoFox.getInstance();
+	
+	var tooltip = 
+	  "За повышение: " + core.getOption('statusVotesUp')
+	  + "\nЗа сохранение: " + core.getOption('statusVotesConfirmed')
+	  + "\nЗа понижения: " + core.getOption('statusVotesDown')
+	  + "\n"
+	  + "\nЖдут ваших фото: " + core.getOption('waitPhotos')
+	  + "\nЖдут ваших комментариев: " + core.getOption('waitComments');
+	
+	photoFox.Panel.print(core.getOption('nick'), tooltip);
   },
   
   drawMessages: function(messages_count)
