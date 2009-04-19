@@ -26,9 +26,8 @@ photoFox.Panel = {
     
     if('' != core.getOption('unreadMessagesCount'))   
       photoFox.Panel.drawMessages(core.getOption('unreadMessagesCount'));
-    
-    if('' != core.getOption('lastFavouriteAuthorPhotoId'))   
-        photoFox.Panel.drawFavouriteAuthors(core.getOption('lastFavouriteAuthorPhotoId'));
+       
+    photoFox.Panel.drawFavouriteAuthors();
   },  
   
   reset: function()
@@ -51,7 +50,7 @@ photoFox.Panel = {
 	  + "\n  фото - " + core.getOption('waitPhotos')
 	  + "\n  комментариев - " + core.getOption('waitComments');
 	
-	photoFox.Panel.print(core.getOption('nick'), tooltip);
+	photoFox.Panel.print(core.getUnicodeOption('nick'), tooltip);
   },
   
   drawMessages: function(messages_count)

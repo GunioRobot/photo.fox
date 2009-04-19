@@ -101,7 +101,7 @@ photoFox.Dao = {
 	
 	core.setOption('id', attrs.getNamedItem('id').value);
 	core.setOption('status', attrs.getNamedItem('status').value);		
-	core.setOption('nick', attrs.getNamedItem('nick').value);
+	core.setUnicodeOption('nick', attrs.getNamedItem('nick').value);
 	
 	core.setOption('statusVotesUp', attrs.getNamedItem('status_votes_up').value);
 	core.setOption('statusVotesDown', attrs.getNamedItem('status_votes_down').value);
@@ -160,3 +160,4 @@ photoFox.Dao = {
   },
   
 };
+

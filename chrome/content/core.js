@@ -50,7 +50,7 @@ photoFox = function(value) {
   }  
 
   photoFox.prototype.update = function()
-  {	
+  {		  
     document.getElementById("photo.fox-label").value = '...';
 
     var httpRequestUser = new XMLHttpRequest();
@@ -115,7 +115,6 @@ photoFox = function(value) {
   
   photoFox.prototype.loadProfile = function(event)
   {
-	alert("Aaa");
     var id = this.getOption('id');
 
     if (!id) return;
@@ -131,14 +130,24 @@ photoFox = function(value) {
   };
 
   photoFox.prototype.setOption = function(name, value)
-  {
-	var container = {value: "" + value};	
-	return this._getOptionPath().setCharPref(name, JSON.toString(container));	
+  {	
+	return this._getOptionPath().setCharPref(name, value);	
   };
   
   photoFox.prototype.getOption = function(name)
   {
-	var container = this._getOptionPath().getCharPref(name);
+	return this._getOptionPath().getCharPref(name);	
+  };
+  
+  photoFox.prototype.setUnicodeOption = function(name, value)
+  {
+	var container = {value: "" + value};	
+	return this.setOption(name, JSON.toString(container));	
+  };
+  
+  photoFox.prototype.getUnicodeOption = function(name)
+  {
+	var container = this.getOption(name);
 	if('' == container)
 	  return '';
 	return JSON.fromString(container).value;

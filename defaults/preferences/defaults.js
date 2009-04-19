@@ -15,4 +15,4 @@ pref("extensions.photo.fox.waitComments", "");
 pref("extensions.photo.fox.lastFavouriteAuthorPhotoCtime", "");
 pref("extensions.photo.fox.favouriteAuthorPhotoChanged", "0");
 
-pref("extensions.photo.fox.unreadMessagesCount", "0");
+pref("extensions.photo.fox.unreadMessagesCount", "");

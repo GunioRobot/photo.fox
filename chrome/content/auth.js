@@ -18,8 +18,21 @@ photoFox.Auth = {
 	core.setOption('id', '');
 	core.setOption('key', '');
 	core.setOption('login', '');
-	core.setOption('nick', '');
-   
+	core.setUnicodeOption('nick', '');
+	core.setOption('status', '');
+	
+	core.setOption('statusVotesUp', '');
+	core.setOption('statusVotesDown', '');
+	core.setOption('statusVotesConfirmed', '');
+	
+	core.setOption('waitPhotos', '');
+	core.setOption('waitComments', '');
+	
+	core.setOption('lastFavouriteAuthorPhotoCtime', '');
+	core.setOption('favouriteAuthorPhotoChanged', '0');
+	
+	core.setOption('unreadMessagesCount', '');
+	
     photoFox.Panel.reset();
   },
 

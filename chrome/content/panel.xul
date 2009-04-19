@@ -51,9 +51,6 @@
   </popupset>
  
   <script type="application/x-javascript">    
-    
-    window.addEventListener ("load", photoFox.getInstance().update, false);
-    
     function photoFoxCheckMenuItems() {
       var is_logged = photoFox.Auth.isLoggedIn();
 
