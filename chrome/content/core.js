@@ -1,21 +1,31 @@
 Components.utils.import("resource://gre/modules/JSON.jsm");
 
-var photoFox = {};
+photoFox = function(value) {
+  this.base_url = 'http://www.photosight.ru';
+  this.value = Math.round(Math.random() * 100);
+};
 
-photoFox.Core = {
+  photoFox.getInstance = function() {
+	if( typeof( this.instance ) == "undefined" )
+	  this.instance = new photoFox();
+		
+      return this.instance;	
+  };
   
-  updateRepeatedly: function()
-  {
-    this.update();
-    setTimeout("photoFox.Core.updateRepeatedly()", 10 * 60 * 1000);
-  },
+  photoFox.debug = function(aMsg) {
+	setTimeout(function() { throw new Error("[debug] " + aMsg); }, 0);
+  };
 
-  init: function()
-  {
-    if(photoFox.Auth.isLoggedIn()) photoFox.Core.updateRepeatedly();
-  },
-  
-  processLeftClick: function(e)
+  photoFox.prototype.updateRepeatedly = function() {
+	this.update();
+	setTimeout("photoFox.getInstance.updateRepeatedly()", 10 * 60 * 1000);  
+  };
+
+  photoFox.prototype.setValue = function(value) {
+    this.value = value;
+  };  
+
+  photoFox.prototype.processLeftClick = function(e)
   {
     if (e.button != 0) return;  
   
@@ -23,27 +33,37 @@ photoFox.Core = {
       this.update();
     else
       photoFox.Auth.login();
-  },
+  };
+  
+  photoFox.prototype.processClickOnMessages = function(event)
+  { 
+	this.setOption('unreadMessagesCount', "0");
+	photoFox.Panel.update();
+	this.loadPSPage(event, '/my/private_messages/');
+  }
 
-  update: function()
+  photoFox.prototype.update = function()
   {
     document.getElementById("photo.fox-label").value = '...';
 
-    var httpRequest = new XMLHttpRequest();
-    if (httpRequest.overrideMimeType)
-      httpRequest.overrideMimeType('text/xml');
+    var httpRequestUser = new XMLHttpRequest();
+    if (httpRequestUser.overrideMimeType)
+      httpRequestUser.overrideMimeType('text/xml');
 
-    httpRequest.onreadystatechange = function() { photoFox.Dao.getUserInfo(httpRequest); };
-    httpRequest.open('GET', photoFox.Dao.getUserInfoUri(), true);
-    httpRequest.send(null);
+    httpRequestUser.onreadystatechange = function() { photoFox.Dao.getUserInfo(httpRequestUser); };
+    httpRequestUser.open('GET', photoFox.Dao.getUserInfoUri(), true);
+    httpRequestUser.send(null);
 
-    httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = function() { photoFox.Dao.getPrivateMessages(httpRequest); };
-    httpRequest.open('GET', photoFox.Dao.getPrivateMessagesUri(), true);
-    httpRequest.send(null);  
-  },
+    var httpRequestMsg = new XMLHttpRequest();
+    if (httpRequestMsg.overrideMimeType)
+      httpRequestMsg.overrideMimeType('text/xml');
+    
+    httpRequestMsg.onreadystatechange = function() { photoFox.Dao.getPrivateMessages(httpRequestMsg); };
+    httpRequestMsg.open('GET', photoFox.Dao.getPrivateMessagesUri(), true);
+    httpRequestMsg.send(null);  
+  };
   
-  loadPage: function(event, url)
+  photoFox.prototype.loadPage = function(event, url)
   {
     var browser = document.getElementById("content");
     if (event.button == 1) {
@@ -65,17 +85,37 @@ photoFox.Core = {
         browser.loadURI(url);
       }
     }
-  },
+  };
   
-  loadProfile: function(event)
+  photoFox.prototype.loadPSPage = function(event, url)
   {
-    var id = photoFox.Options.get('id');
+	this.loadPage(event, this.base_url + url);  
+  };
+  
+  photoFox.prototype.loadProfile = function(event)
+  {
+	alert("Aaa");
+    var id = this.getOption('id');
 
     if (!id) return;
 
-    var url = 'http://www.photosight.ru/users/' + id;
+    this.loadPSPage(event, '/users/' + id);
+  };
+	  
+  photoFox.prototype._getOptionPath = function()
+  {
+	return Components.classes["@mozilla.org/preferences-service;1"]
+	  .getService(Components.interfaces.nsIPrefService)
+	  .getBranch("extensions.photo.fox.");
+  };
 
-    this.LoadPage(event, url);
-  }
-
-};
+  photoFox.prototype.setOption = function(name, value)
+  {
+	var container = {value: "" + value};	
+	return this._getOptionPath().setCharPref(name, JSON.toString(container));	
+  };
+  
+  photoFox.prototype.getOption = function(name)
+  {
+	return JSON.fromString(this._getOptionPath().getCharPref(name)).value;
+  };

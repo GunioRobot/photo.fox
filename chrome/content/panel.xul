@@ -9,23 +9,40 @@
   <script type="application/x-javascript" src="chrome://photo.fox/content/dao.js" />
   <statusbar id="status-bar">
 	  <statusbarpanel id="photo.fox-panel" context="photo.fox-menu" >
-      <image src="chrome://photo.fox/content/photosight.ico" style="cursor:pointer" tooltiptext="Перейти к профилю."
-            onclick="photoFox.Core.loadProfile(event)"/>
-		  <label id="photo.fox-label" value="Фото.сайт" tooltiptext="Щелкните, чтобы настроить."
-            onclick="photoFox.Core.processLeftClick(event)"/>
+      <image
+        src="http://www.photosight.ru/favicon.ico"
+        style="cursor:pointer" tooltiptext="Перейти к профилю."
+        onclick="photoFox.getInstance().loadProfile(event)"/>
+		  <label
+		    id="photo.fox-label"
+		    value="Фото.сайт"
+		    tooltiptext="Щелкните, чтобы войти"
+        onclick="photoFox.getInstance().processLeftClick(event)"/>                        
+      <image
+        id="photo.fox-image-messages"
+        src="http://www.photosight.ru/images/icon/message_new.gif"
+        tooltiptext="Кто-то вам написал"
+        onclick="photoFox.getInstance().processClickOnMessages(event);"
+        style="cursor:pointer"        
+      />
+      <label
+        id="photo.fox-label-messages"
+        tooltiptext="Количество непрочитанных сообщений"
+        onclick="photoFox.getInstance().processClickOnMessages();"
+        style="cursor:pointer"        
+      />
 	  </statusbarpanel>
   </statusbar>  
   <popupset>
     <menupopup id="photo.fox-menu" onpopupshowing="photoFoxCheckMenuItems();">
       <menuitem id="menu-item-login" label="Войти" oncommand="photoFox.Auth.login()"/>
       <menuitem id="menu-item-logout" label="Выйти" oncommand="photoFox.Auth.logout()"/>
-      <!--<menuseparator/>
-      <menuitem label="Настройки..." oncommand="photoFoxShowPrefs()"/>-->
     </menupopup>   
   </popupset>
  
-  <script type="application/x-javascript">
-    window.addEventListener ("load", photoFox.Core.init, false);
+  <script type="application/x-javascript">    
+    
+    window.addEventListener ("load", photoFox.getInstance().update, false);
     
     function photoFoxCheckMenuItems() {
       var is_logged = photoFox.Auth.isLoggedIn();

@@ -6,29 +6,38 @@ photoFox.Panel = {
     document.getElementById("photo.fox-label").tooltipText = tooltip;
   },
 
-  printError: function(message)
+  printError: function(message, tooltip)
   {
-    this.print(':-(', message);
+    this.print('Алярма! ' + message, tooltip);
   },
 
   update: function()
+  {  
+	var core = photoFox.getInstance();
+    
+	var nick = core.getOption('nick'); 
+	if('' == nick) return;	
+    this.print(nick, "Ласково надавите, чтобы обновить");
+    
+    if('' == core.getOption('unreadMessagesCount')) return;   
+    photoFox.Panel.drawMessages(core.getOption('unreadMessagesCount'));
+  },  
+  
+  reset: function()
   {
-    var info = photoFox.Options.get('info-user');
-    if('' == info)
-      return;
-    info = JSON.fromString(info);
-    
-    var messages_info = photoFox.Options.get('info-messages');
-    if('' == messages_info)
-      return;
-    messages_info = JSON.fromString(messages_info);
+	this.print('Фото.Fox', 'Тыцните, чтобы войти');
+	photoFox.Panel.drawMessages(0);
+  },
   
-    var label = info.nick + ' [' + info.st_up + '/' + info.st_confirmed + '/' + info.st_down + ']';
-    label += '[' + info.fav_authors + '/' + info.fav_commenters + ']['+ messages_info.count +']';
-  
-    tooltip = "Имя пользователя [голоса за поднятие статуса / голоса за сохранение статуса / голоса за понижение статуса][ждут фото / ждут комментариев][количество новых сообщений]";
-    tooltip += ". Щелкните, чтобы обновить.";  
-    
-    this.print(label, tooltip);
+  drawMessages: function(messages_count)
+  {
+	var label = document.getElementById("photo.fox-label-messages");
+	var image = document.getElementById("photo.fox-image-messages");
+	
+	var is_hidden = (0 == messages_count);
+	
+	label.value = messages_count;	
+	label.hidden = is_hidden;
+	image.hidden = is_hidden;
   },
 };
