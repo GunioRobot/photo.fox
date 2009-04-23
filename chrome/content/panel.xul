@@ -7,6 +7,7 @@
   <script type="application/x-javascript" src="chrome://photo.fox/content/options.js" />
   <script type="application/x-javascript" src="chrome://photo.fox/content/auth.js" />
   <script type="application/x-javascript" src="chrome://photo.fox/content/dao.js" />
+  <script type="application/x-javascript" src="chrome://photo.fox/content/navigate.js" />
   <statusbar id="status-bar">
 	  <statusbarpanel id="photo.fox-panel" context="photo.fox-menu" >
       <image
@@ -40,6 +41,13 @@
         onclick="photoFox.getInstance().processClickOnFavouriteAuthorsPhotos(event);"
         style="cursor:pointer;"
         hidden="true"
+      />
+      <label
+        id="photo.fox-label-favourites"
+        tooltiptext="Количество новых фото избранных авторов"
+        onclick="photoFox.getInstance().processClickOnFavouriteAuthorsPhotos(event);"
+        style="cursor:pointer"
+        hidden="true"        
       />      
 	  </statusbarpanel>
   </statusbar>  
@@ -51,6 +59,9 @@
   </popupset>
  
   <script type="application/x-javascript">    
+    window.addEventListener ("load", photoFox.updateRepeatedly, false);        
+    document.addEventListener ("keydown", photoFox.Navigate.onClick, false);  
+  
     function photoFoxCheckMenuItems() {
       var is_logged = photoFox.Auth.isLoggedIn();
 

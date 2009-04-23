@@ -13,6 +13,8 @@ pref("extensions.photo.fox.waitPhotos", "");
 pref("extensions.photo.fox.waitComments", "");
 
 pref("extensions.photo.fox.lastFavouriteAuthorPhotoCtime", "");
-pref("extensions.photo.fox.favouriteAuthorPhotoChanged", "0");
+pref("extensions.photo.fox.favouriteAuthorPhotosCount", "0");
 
 pref("extensions.photo.fox.unreadMessagesCount", "");
+
+pref("extensions.photo.fox.navigationEnabled", "0");

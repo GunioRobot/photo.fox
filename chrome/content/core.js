@@ -13,12 +13,15 @@ photoFox = function(value) {
   };
   
   photoFox.debug = function(aMsg) {
-	setTimeout(function() { throw new Error("[debug] " + aMsg); }, 0);
+	//setTimeout(function() { throw new Error("[debug] " + aMsg); }, 0);
   };
 
-  photoFox.prototype.updateRepeatedly = function() {
-	this.update();
-	setTimeout("photoFox.getInstance.updateRepeatedly()", 10 * 60 * 1000);  
+  photoFox.updateRepeatedly = function() {
+    if (!photoFox.Auth.isLoggedIn())
+      return;
+  
+    photoFox.getInstance().update();
+    setTimeout("photoFox.updateRepeatedly()", 10 * 60 * 1000);  
   };
 
   photoFox.prototype.setValue = function(value) {
@@ -44,9 +47,9 @@ photoFox = function(value) {
   
   photoFox.prototype.processClickOnFavouriteAuthorsPhotos = function(event)
   { 
-	this.setOption('favouriteAuthorPhotoChanged', "0");
+	this.setOption('favouriteAuthorPhotosCount', "0");
 	photoFox.Panel.update();
-	this.loadPSPage(event, '/my/favorite_authors/');
+	this.loadPSPage(event, '/my/favorite_authors_photos//');
   }  
 
   photoFox.prototype.update = function()
@@ -86,6 +89,7 @@ photoFox = function(value) {
   
   photoFox.prototype.loadPage = function(event, url)
   {
+	photoFox.debug(url);
     var browser = document.getElementById("content");
     if (event.button == 1) {
       var tab = browser.addTab(url);

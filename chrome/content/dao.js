@@ -3,15 +3,15 @@ photoFox.Dao = {
   getLoginAndKeyFromUri: function(uri)
   {
     var url_parts = uri.split('?');
-    if(url_parts.length<1) return false;
+    if(url_parts.length < 1) return false;
   	url_parts = url_parts[1];
   
   	url_parts = url_parts.split('&');
-  	if(url_parts.length<1) return false;
+  	if(url_parts.length < 1) return false;
   
   	var result = {};
   
-  	for(var i=0;i<url_parts.length;i++) {
+  	for(var i = 0; i < url_parts.length; i++) {
   	  var option = url_parts[i].split('=');
   
       if('u' == option[0])
@@ -87,8 +87,6 @@ photoFox.Dao = {
 	  photoFox.Panel.printError('Отсутствует связь с фотосайтом');
 	  throw e;
 	}
-	
-	//alert(httpRequest.responseText);
 	    
 	var tags = xmlDoc.getElementsByTagName('psmember');
 	
@@ -148,12 +146,31 @@ photoFox.Dao = {
     
     var core = photoFox.getInstance();
     
-    var top_photo_ctime = xmlDoc.getElementsByTagName('pubDate').item(0).textContent;    
+    var pub_dates = xmlDoc.getElementsByTagName('pubDate');
+    
     var old_top_photo_ctime = core.getOption('lastFavouriteAuthorPhotoCtime');
+    
+    var new_photos_count_delta = 0;
+    for each(pub_date in pub_dates)
+    {
+      
+      if(pub_date.textContent == old_top_photo_ctime)
+        break;
+      else
+    	new_photos_count_delta++;
+    }
+    
+    photoFox.debug('count: ' + new_photos_count_delta);
         
-    if(top_photo_ctime != old_top_photo_ctime) {
-      core.setOption('lastFavouriteAuthorPhotoCtime', top_photo_ctime);
-      core.setOption('favouriteAuthorPhotoChanged', "1");
+    if(new_photos_count_delta) {
+    	
+      core.setOption('lastFavouriteAuthorPhotoCtime', pub_dates.item(0).textContent);
+      
+      var new_photos_count = 999;
+      if(new_photos_count_delta < 20)
+    	new_photos_count = new_photos_count_delta + Number(core.getOption('favouriteAuthorPhotosCount'));
+    	
+      core.setOption('favouriteAuthorPhotosCount', new_photos_count);
     }
     
     photoFox.Panel.update();

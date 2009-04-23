@@ -27,7 +27,8 @@ photoFox.Panel = {
     if('' != core.getOption('unreadMessagesCount'))   
       photoFox.Panel.drawMessages(core.getOption('unreadMessagesCount'));
        
-    photoFox.Panel.drawFavouriteAuthors();
+    if('' != core.getOption('favouriteAuthorPhotosCount'))   
+      photoFox.Panel.drawFavouriteAuthors(core.getOption('favouriteAuthorPhotosCount'));
   },  
   
   reset: function()
@@ -65,13 +66,19 @@ photoFox.Panel = {
 	image.hidden = is_hidden;
   },
   
-  drawFavouriteAuthors: function(messages_count)
+  drawFavouriteAuthors: function(photos_count)
   {
-	var image = document.getElementById("photo.fox-image-favourites");
+	var label = document.getElementById("photo.fox-label-favourites");
+	var image = document.getElementById("photo.fox-image-favourites");	
 	
-	if("0" != photoFox.getInstance().getOption('favouriteAuthorPhotoChanged'))
-	  image.hidden = false;
-	else
-	  image.hidden = true;
+	photoFox.debug("count in panel: " + photoFox.getInstance().getOption('favouriteAuthorPhotosCount'));
+	
+	var is_hidden = (0 == photos_count);
+	
+	photoFox.debug("show photo count: " + is_hidden);
+	
+	label.value = photos_count;	
+	label.hidden = is_hidden;
+	image.hidden = is_hidden;
   },
 };

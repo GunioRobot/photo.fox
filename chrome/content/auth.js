@@ -29,7 +29,7 @@ photoFox.Auth = {
 	core.setOption('waitComments', '');
 	
 	core.setOption('lastFavouriteAuthorPhotoCtime', '');
-	core.setOption('favouriteAuthorPhotoChanged', '0');
+	core.setOption('favouriteAuthorPhotosCount', '0');
 	
 	core.setOption('unreadMessagesCount', '');
 	
