@@ -1,4 +1,3 @@
-Components.utils.import("resource://gre/modules/JSON.jsm");
 
 photoFox = function(value) {
   this.base_url = 'http://www.photosight.ru';
@@ -144,15 +143,18 @@ photoFox = function(value) {
   };
   
   photoFox.prototype.setUnicodeOption = function(name, value)
-  {
-	var container = {value: "" + value};	
-	return this.setOption(name, JSON.toString(container));	
+  {		  	
+	var container = Components.classes["@mozilla.org/pref-localizedstring;1"]
+	  .createInstance(Components.interfaces.nsIPrefLocalizedString);
+	container.data = value;
+	
+	this._getOptionPath().setComplexValue(name, 
+      Components.interfaces.nsIPrefLocalizedString, container);
   };
   
   photoFox.prototype.getUnicodeOption = function(name)
   {
-	var container = this.getOption(name);
-	if('' == container)
-	  return '';
-	return JSON.fromString(container).value;
+	var container = this._getOptionPath().getComplexValue(name, 
+	  Components.interfaces.nsIPrefLocalizedString);
+	return container.data;
   };

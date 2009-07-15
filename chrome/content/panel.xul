@@ -2,7 +2,7 @@
 <overlay id="photo.fox-overlay"
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script type="application/x-javascript" src="chrome://photo.fox/content/core.js" />
+  <script type="application/x-javascript" src="chrome://photo.fox/content/core.js" />  
   <script type="application/x-javascript" src="chrome://photo.fox/content/panel.js" />
   <script type="application/x-javascript" src="chrome://photo.fox/content/options.js" />
   <script type="application/x-javascript" src="chrome://photo.fox/content/auth.js" />
