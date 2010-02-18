@@ -1,8 +1,8 @@
 
-photoFox = function(value) {
-  this.base_url = 'http://www.photosight.ru';
-  this.value = Math.round(Math.random() * 100);
-};
+  photoFox = function(value) {
+    this.base_url = 'http://www.photosight.ru';
+    this.value = Math.round(Math.random() * 100);
+  };
 
   photoFox.getInstance = function() {
 	if( typeof( this.instance ) == "undefined" )
